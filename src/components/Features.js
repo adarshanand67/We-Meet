@@ -1,6 +1,8 @@
 import React from 'react'
 
-function Features() {
+function Features(props) {
+  const { heading, description } = props;
+
   return (
     <div>
       <>
@@ -18,15 +20,12 @@ function Features() {
             <div className=" col d-flex flex-column">
               <div className="p-2">
                 <h1 className="display-4 text-center fw-bold">
-                  Meet from anywhere
+                  {heading}
                 </h1>
               </div>
               <div className="p-2">
                 <p className="text-muted h5">
-                  We-Meet is a web-based video calling app that lets you meet
-                  with anyone, anywhere. Get the whole crew together in We-Meet,
-                  where you can present business proposals, collaborate on
-                  chemistry assignments, or just catch up face to face.
+                  {description}
                 </p>
               </div>
             </div>
