@@ -6,7 +6,7 @@ function Content() {
     <div>
       <>
         {/* Video calling easier than ever */}
-        <div className="container m-4 p-2" data-aos="fade-up">
+        <div className="container p-5" data-aos="fade-up">
           <div className="row align-items-center justify-content-center">
             <div className="col">
               <img

@@ -8,7 +8,7 @@ function Features(props) {
       <>
 
         {/* Product feature */}
-        <div className="container m-5 p-5" data-aos="fade-right">
+        <div className="container p-5" data-aos="fade-right">
           <div className="row">
             <div className="col d-flex align-items-center">
               <img
@@ -35,5 +35,12 @@ function Features(props) {
     </div>
   );
 }
+
+
+// Default props
+Features.defaultProps = {
+  heading: "Heading",
+  description: "Description",
+};
 
 export default Features
