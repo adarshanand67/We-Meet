@@ -59,7 +59,7 @@ export function MeetingContainer({
   });
 
   useEffect(() => {
-    const boundingRect = containerRef.current.getBoundingClientRect();
+    const boundingRect = containerRef.current.getBoundingClientRect(); // Getting container height and width from container ref
     const { width, height } = boundingRect;
 
     if (height !== containerHeightRef.current) {
@@ -69,12 +69,12 @@ export function MeetingContainer({
     if (width !== containerWidthRef.current) {
       setContainerWidth(width);
     }
-  }, [containerRef]);
+  }, [containerRef]); // Updating container height and width wheneever container ref changes
 
-  const { participantRaisedHand } = useRaisedHandParticipants();
+  const { participantRaisedHand } = useRaisedHandParticipants(); // Getting raised hand participants from useRaisedHandParticipants hook
 
   const _handleMeetingLeft = () => {
-    setIsMeetingLeft(true);
+    setIsMeetingLeft(true); // Setting meeting left state to true
   };
 
   const _handleOnRecordingStateChanged = ({ status }) => {
@@ -86,13 +86,13 @@ export function MeetingContainer({
         status === Constants.recordingEvents.RECORDING_STARTED
           ? "Meeting recording is started."
           : "Meeting recording is stopped."
-      );
+      ); // Showing snackbar notification when recording is started or stopped
     }
   };
 
   function onParticipantJoined(participant) {
     // Change quality to low, med or high based on resolution
-    participant && participant.setQuality("high");
+    participant && participant.setQuality("high"); // Setting participant quality to high
   }
 
   function onEntryResponded(participantId, name) {
@@ -110,11 +110,11 @@ export function MeetingContainer({
   }
 
   async function onMeetingJoined() {
-    // console.log("onMeetingJoined");
     const { changeWebcam, changeMic, muteMic, disableWebcam } =
-      mMeetingRef.current;
+      mMeetingRef.current; // Getting meeting methods from meeting ref
 
     if (webcamEnabled && selectedWebcam.id) {
+      // If webcam is enabled and selected webcam id is present
       await new Promise((resolve) => {
         disableWebcam();
         setTimeout(async () => {
@@ -124,43 +124,45 @@ export function MeetingContainer({
             encoderConfig: "h1080p_w1920p",
             facingMode: "environment",
             multiStream: false,
-          });
-          changeWebcam(track);
+          }); // Creating camera video track with selected webcam id
+          changeWebcam(track); // Changing webcam to selected webcam
           resolve();
         }, 500);
       });
     }
 
     if (micEnabled && selectedMic.id) {
+      // If mic is enabled and selected mic id is present
       await new Promise((resolve) => {
         muteMic();
         setTimeout(() => {
-          changeMic(selectedMic.id);
-          resolve();
+          changeMic(selectedMic.id); // Changing mic to selected mic
+          resolve(); // Resolving promise
         }, 500);
       });
     }
   }
   function onMeetingLeft() {
     // console.log("onMeetingLeft");
-    onMeetingLeave();
+    onMeetingLeave(); // Calling onMeetingLeave function
   }
 
   const _handleOnError = (data) => {
+    // Handling meeting error
     const { code, message } = data;
 
     const joiningErrCodes = [
       4001, 4002, 4003, 4004, 4005, 4006, 4007, 4008, 4009, 4010,
     ];
 
-    const isJoiningError = joiningErrCodes.findIndex((c) => c === code) !== -1;
+    const isJoiningError = joiningErrCodes.findIndex((c) => c === code) !== -1; // Checking if error code is joining error code
     const isCriticalError = `${code}`.startsWith("500");
 
     new Audio(
       isCriticalError
         ? `https://static.videosdk.live/prebuilt/notification_critical_err.mp3`
         : `https://static.videosdk.live/prebuilt/notification_err.mp3`
-    ).play();
+    ).play(); // Playing error sound
 
     setMeetingError({
       code,
@@ -169,6 +171,7 @@ export function MeetingContainer({
   };
 
   const mMeeting = useMeeting({
+    // Using useMeeting hook to create meeting
     onParticipantJoined,
     onEntryResponded,
     onMeetingJoined,
@@ -177,39 +180,41 @@ export function MeetingContainer({
     onRecordingStateChanged: _handleOnRecordingStateChanged,
   });
 
-  const isPresenting = mMeeting.presenterId ? true : false;
+  const isPresenting = mMeeting.presenterId ? true : false; // Checking if presenter id is present
 
   useEffect(() => {
     mMeetingRef.current = mMeeting;
-  }, [mMeeting]);
+  }, [mMeeting]); // Updating meeting ref whenever meeting changes
 
   usePubSub("RAISE_HAND", {
+    // Using usePubSub hook to subscribe to raise hand pubsub
     onMessageReceived: (data) => {
-      const localParticipantId = mMeeting?.localParticipant?.id;
+      const localParticipantId = mMeeting?.localParticipant?.id; // Which participant raised hand
 
-      const { senderId, senderName } = data;
+      const { senderId, senderName } = data; // Getting sender id and name from data
 
-      const isLocal = senderId === localParticipantId;
+      const isLocal = senderId === localParticipantId; // Checking if sender is local participant
 
       new Audio(
         `https://static.videosdk.live/prebuilt/notification.mp3`
       ).play();
 
       enqueueSnackbar(
-        `${isLocal ? "You" : nameTructed(senderName, 15)} raised hand 🖐🏼`
+        `${isLocal ? "You" : nameTructed(senderName, 15)} raised hand 🖐🏼` // Showing snackbar notification
       );
 
-      participantRaisedHand(senderId);
+      participantRaisedHand(senderId); // Calling participantRaisedHand function to add participant to raised hand participants
     },
   });
 
   usePubSub("CHAT", {
+    // Using usePubSub hook to subscribe to chat pubsub
     onMessageReceived: (data) => {
       const localParticipantId = mMeeting?.localParticipant?.id;
 
       const { senderId, senderName, message } = data;
 
-      const isLocal = senderId === localParticipantId;
+      const isLocal = senderId === localParticipantId; // Checking if sender is local participant
 
       if (!isLocal) {
         new Audio(
@@ -217,7 +222,7 @@ export function MeetingContainer({
         ).play();
 
         enqueueSnackbar(
-          trimSnackBarText(`${nameTructed(senderName, 15)} says: ${message}`)
+          trimSnackBarText(`${nameTructed(senderName, 15)} says: ${message}`) // Showing snackbar notification
         );
       }
     },
@@ -229,19 +234,19 @@ export function MeetingContainer({
 
   return (
     <div
-      // style={{ height: windowHeight }}
       ref={containerRef}
-      className="h-screen flex flex-col bg-gray-800"
+      className="h-screen flex flex-col bg-gray-800" // Meeting container
     >
-      {typeof localParticipantAllowedJoin === "boolean" ? (
+      {typeof localParticipantAllowedJoin === "boolean" ? ( // Checking if local participant is allowed to join
         localParticipantAllowedJoin ? (
           <>
             <div className={` flex flex-1 flex-row bg-gray-800 `}>
               <div className={`flex flex-1 `}>
+                {/* Presenter View (Screen Sharing) */}
                 {isPresenting ? (
-                  <PresenterView height={containerHeight - bottomBarHeight} />
+                  <PresenterView height={containerHeight - bottomBarHeight} /> // If presenter is presenting then showing presenter view
                 ) : null}
-                {isPresenting && isMobile ? null : (
+                {isPresenting && isMobile ? null : ( // If presenter is presenting and device is mobile then not showing participant view
                   <MemorizedParticipantView
                     isPresenting={isPresenting}
                     sideBarMode={sideBarMode}

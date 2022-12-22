@@ -170,7 +170,7 @@ export function PresenterView({ height }) {
                   color: theme.palette.common.white,
                 }}
               >
-                You are presenting to everyone
+                You are using We-meet to present to everyone
               </Typography>
             </Box>
             <Box mt={4}>
@@ -185,7 +185,7 @@ export function PresenterView({ height }) {
                   backgroundColor: theme.palette.primary.primaryMain,
                 }}
               >
-                Stop presenting
+                Stop presenting screen
               </Button>
             </Box>
           </Box>

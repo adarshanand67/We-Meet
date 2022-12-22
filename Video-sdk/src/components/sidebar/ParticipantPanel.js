@@ -9,27 +9,34 @@ import VideoCamOnIcon from "../../icons/ParticipantTabPanel/VideoCamOnIcon";
 import { nameTructed } from "../../utils/helper";
 
 function ParticipantListItem({ participantId, raisedHand }) {
+  // Function to render the participant list item in the participant panel
   const { micOn, webcamOn, displayName, isLocal } =
-    useParticipant(participantId);
+    useParticipant(participantId); // Get the participant from the participantId details
+  // console.log("ParticipantListItem", participantId, raisedHand, micOn, webcamOn, displayName, isLocal)
 
-  const theme = useTheme();
+  const theme = useTheme(); // Get the theme from the context
 
   return (
     <div className="mt-2 m-2 p-2 bg-gray-700 rounded-lg mb-0">
       <div className="flex flex-1 items-center justify-center relative">
+        {/* Icon */}
         <Avatar variant={"rounded"}>{displayName?.charAt(0)}</Avatar>
         <div className="ml-2 mr-1 flex flex-1">
           <p className="text-base text-white overflow-hidden whitespace-pre-wrap overflow-ellipsis">
-            {isLocal ? "You" : nameTructed(displayName, 15)}
+            {isLocal ? "You" : nameTructed(displayName, 15)}{" "}
+            {/* If the participant is local, show "You" else show the participant name */}
           </p>
         </div>
         {raisedHand && (
           <div className="flex items-center justify-center m-1 p-1">
-            <RaiseHand fillcolor={theme.palette.common.white} />
+          {/* Svg icon of raise hand */}
+            <RaiseHand fillcolor={theme.palette.primary.main} />
           </div>
         )}
+        {/* Mic */}
         <div className="m-1 p-1">{micOn ? <MicOnIcon /> : <MicOffIcon />}</div>
         <div className="m-1 p-1">
+        {/* Cam */}
           {webcamOn ? <VideoCamOnIcon /> : <VideoCamOffIcon />}
         </div>
       </div>
@@ -38,11 +45,12 @@ function ParticipantListItem({ participantId, raisedHand }) {
 }
 
 export function ParticipantPanel({ panelHeight, raisedHandsParticipants }) {
-  const mMeeting = useMeeting();
+  const mMeeting = useMeeting(); // Get the meeting from the context
   const participants = mMeeting.participants;
 
   const sortedRaisedHandsParticipants = useMemo(() => {
-    const participantIds = [...participants.keys()];
+    const participantIds = [...participants.keys()]; // get all participant ids
+    // console.log("participantIds", participantIds);
 
     const notRaised = participantIds.filter(
       (pID) =>
@@ -70,7 +78,7 @@ export function ParticipantPanel({ panelHeight, raisedHandsParticipants }) {
     ];
 
     return combined;
-  }, [raisedHandsParticipants, participants]);
+  }, [raisedHandsParticipants, participants]); // use memo to avoid re-rendering of participants
 
   const filterParticipants = (sortedRaisedHandsParticipants) =>
     sortedRaisedHandsParticipants;
@@ -94,6 +102,7 @@ export function ParticipantPanel({ panelHeight, raisedHandsParticipants }) {
           const { raisedHand, participantId: peerId } = part[index];
           return (
             <ParticipantListItem
+              key={participantId}
               participantId={peerId}
               raisedHand={raisedHand}
             />

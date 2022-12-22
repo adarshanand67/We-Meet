@@ -9,7 +9,7 @@ import {
   Slide,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
-import { Constants, useMeeting } from "@videosdk.live/react-sdk";
+import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React from "react";
 import useIsMobile from "../../hooks/useIsMobile";
 import useIsTab from "../../hooks/useIsTab";
@@ -38,9 +38,10 @@ const SideBarTabView = ({
   draftPolls,
   setSideBarMode,
 }) => {
-  const { participants } = useMeeting();
+  const { participants } = useMeeting(); // Get the participants from the meeting
   const theme = useTheme();
-
+  const { messages } = usePubSub("CHAT");
+  const lenthOfMessages = messages.length;
   return (
     <div
       style={{
@@ -74,27 +75,31 @@ const SideBarTabView = ({
                   borderBottom: "1px solid #70707033",
                 }}
               >
+                {/* What to show on header of sidebar */}
                 <Typography variant={"body1"} style={{ fontWeight: "bold" }}>
-                  {sideBarMode === "PARTICIPANTS"
-                    ? `${capitalize(
+                  {sideBarMode === sideBarModes.PARTICIPANTS // Check if the sidebar mode is participants
+                    ? `🙋‍♂️ ${capitalize(
                         String(sideBarMode || "").toLowerCase()
-                      )} (${new Map(participants)?.size})`
-                    : sideBarMode === sideBarModes.CREATE_POLL
+                      )} (${new Map(participants)?.size})` // If yes, then show the number of participants
+                    : sideBarMode === sideBarModes.CREATE_POLL // Check if the sidebar mode is create poll
                     ? "Create a poll"
-                    : sideBarMode === sideBarModes.POLLS
+                    : sideBarMode === sideBarModes.POLLS // Check if the sidebar mode is polls
                     ? polls?.length >= 1 || draftPolls?.length >= 1
                       ? `Polls ${
                           polls?.length || draftPolls?.length
                             ? `(${polls?.length || draftPolls?.length})`
                             : ""
                         }`
-                      : meetingMode === Constants.modes.VIEWER
+                      : meetingMode === Constants.modes.VIEWER // Check if the meeting mode is viewer
                       ? `Polls ${polls?.length ? `(${polls?.length})` : ""}`
                       : "Create a poll"
                     : sideBarMode === sideBarModes.ECOMMERCE
                     ? "Products"
-                    : capitalize(String(sideBarMode || "").toLowerCase())}
+                    : `📩 ${capitalize(
+                        String(sideBarMode || "").toLowerCase()
+                      )} (${lenthOfMessages})`}
                 </Typography>
+                {/* Close button */}
                 <IconButton
                   onClick={handleClose}
                   style={{ margin: 0, padding: 0 }}
@@ -103,12 +108,13 @@ const SideBarTabView = ({
                 </IconButton>
               </Box>
             )}
+            {/* Participants  */}
             {sideBarMode === "PARTICIPANTS" ? (
-              <ParticipantPanel
+              <ParticipantPanel // Show the participants panel component
                 panelHeight={panelHeight}
                 raisedHandsParticipants={raisedHandsParticipants}
               />
-            ) : sideBarMode === "CHAT" ? (
+            ) : sideBarMode === "CHAT" ? ( // Chat Panel
               <ChatPanel panelHeight={panelHeight} />
             ) : sideBarMode === "POLLS" && meetingMode !== "VIEWER" ? (
               polls.length === 0 && draftPolls.length === 0 ? (
@@ -171,6 +177,7 @@ export function SidebarConatiner({
 
   const isMobile = useIsMobile();
   const isTab = useIsTab();
+  // console.log("sidebarMode", sideBarMode, "isMobile", isMobile, "isTab", isTab)
 
   return sideBarMode ? (
     isTab || isMobile ? (

@@ -116,8 +116,9 @@ const ChatInput = ({ inputHeight }) => {
 };
 
 const ChatMessages = ({ listHeight }) => {
-  const listRef = useRef();
-  const { messages } = usePubSub("CHAT");
+  const listRef = useRef(); // for scrolling to bottom of chat
+  const { messages } = usePubSub("CHAT"); // usePubSub hook to get messages from pubsub channel named "CHAT"
+  console.log(messages)
 
   const scrollToBottom = (data) => {
     if (!data) {
@@ -162,6 +163,7 @@ const ChatMessages = ({ listHeight }) => {
 };
 
 export function ChatPanel({ panelHeight }) {
+  // console.log(panelHeight);
   const inputHeight = 72;
   const listHeight = panelHeight - inputHeight;
 
