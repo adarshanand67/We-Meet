@@ -10,6 +10,7 @@ export default function generateMuiTheme(type, primary, secondary) {
         primary: "#4D96A9",
         secondary: "#855FB1",
       },
+
       palette: {
         type: "dark",
         text: { primary: "#fff", secondary: "#9fa0a7" },
