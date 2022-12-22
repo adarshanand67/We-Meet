@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/react-rtc-demo/static/css/main.eca5ac7c.css",
+    "main.js": "/react-rtc-demo/static/js/main.a6620b83.js",
+    "static/media/product1.png": "/react-rtc-demo/static/media/product1.dd86ff5543996e3f1c81.png",
+    "static/media/product2.png": "/react-rtc-demo/static/media/product2.0b221f4a64326a9324a6.png",
+    "static/media/product3.png": "/react-rtc-demo/static/media/product3.24930660fac862a089d8.png",
+    "index.html": "/react-rtc-demo/index.html",
+    "main.eca5ac7c.css.map": "/react-rtc-demo/static/css/main.eca5ac7c.css.map",
+    "main.a6620b83.js.map": "/react-rtc-demo/static/js/main.a6620b83.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eca5ac7c.css",
+    "static/js/main.a6620b83.js"
+  ]
+}
