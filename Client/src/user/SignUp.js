@@ -9,7 +9,7 @@ const SignUp = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    
+
     const handleOnChange = (e) => {
         setError("");
         setSuccess("");
@@ -57,7 +57,7 @@ const SignUp = () => {
     );
     const showForm = () => (
         <div className="container-sm" data-aos="flip-right">
-            <section className="vh-100 ">
+            <section className="vh-100">
                 <div className="container-fluid h-custom">
                     <div className="row d-flex justify-content-center align-items-center h-100 bg-secondary m-5">
                         <div className="col-md-9 col-lg-6 col-xl-5">
