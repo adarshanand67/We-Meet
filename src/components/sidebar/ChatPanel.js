@@ -4,11 +4,11 @@ import {
   OutlinedInput as Input,
   useTheme,
 } from "@material-ui/core";
-import {Send} from "@material-ui/icons";
-import {useMeeting, usePubSub} from "@videosdk.live/react-sdk";
-import React, {useEffect, useRef, useState} from "react";
+import { Send } from "@material-ui/icons";
+import { useMeeting, usePubSub } from "@videosdk.live/react-sdk";
+import React, { useEffect, useRef, useState } from "react";
 
-import {formatAMPM, json_verify, nameTructed} from "../../utils/helper";
+import { formatAMPM, json_verify, nameTructed } from "../../utils/helper";
 
 const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
   const mMeeting = useMeeting();
@@ -17,27 +17,30 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
 
   return (
     <div
-  className = {
-      `flex ${localSender ? "justify-end" : "justify-start"} mt-4`} style = {
-    { maxWidth: "100%", }
-  } > < div
-  className =
-      {`flex ${
-          localSender
-              ? "items-end"
-              : "items-start"} flex-col py-1 px-2 rounded-md bg-gray-700`} >
-      <p style = {{ color: "#ffffff80" }}>{
-          localSender ? "You" : nameTructed(senderName, 15)}<
-          /p>
+      className={`flex ${localSender ? "justify-end" : "justify-start"} mt-4`}
+      style={{ maxWidth: "100%" }}
+    >
+      {" "}
+      <div
+        className={`flex ${
+          localSender ? "items-end" : "items-start"
+        } flex-col py-1 px-2 rounded-md bg-gray-700`}
+      >
+        <p style={{ color: "#ffffff80" }}>
+          {localSender ? "You" : nameTructed(senderName, 15)}
+        </p>
         <div>
           <p className="inline-block whitespace-pre-wrap break-words text-right text-white">
             {text}
-          </p></div>
+          </p>
+        </div>
         <div className="mt-1">
           <p className="text-xs italic" style={{ color: "#ffffff80" }}>
             {formatAMPM(new Date(timestamp))}
-          </p></div>
-      </div></div>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -104,19 +107,17 @@ const ChatInput = ({ inputHeight }) => {
               }}
             >
               <Send />
-      </IconButton>
+            </IconButton>
           </InputAdornment>
         }
       />
     </div>
   );
-}
-;
-
-const ChatMessages = ({listHeight}) => {
+};
+const ChatMessages = ({ listHeight }) => {
   const listRef = useRef(); // for scrolling to bottom of chat
   const { messages } = usePubSub("CHAT"); // usePubSub hook to get messages from pubsub channel named "CHAT"
-  console.log(messages)
+  console.log(messages);
 
   const scrollToBottom = (data) => {
     if (!data) {
