@@ -2,21 +2,23 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput as Input,
-  useTheme,
 } from "@material-ui/core";
 import { Send } from "@material-ui/icons";
 import { useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React, { useEffect, useRef, useState } from "react";
 import { formatAMPM, json_verify, nameTructed } from "../../utils/helper";
+import { useTheme } from "@material-ui/core/styles";
 
 const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
-  const mMeeting = useMeeting();
+  // UI of one chat message
+  const mMeeting = useMeeting(); // Get the meeting object from the meeting
+  // console.log("mMeeting", mMeeting);
   const localParticipantId = mMeeting?.localParticipant?.id;
   const localSender = localParticipantId === senderId;
 
   return (
     <div
-      className={`flex ${localSender ? "justify-end" : "justify-start"} mt-4`}
+      className={`flex ${localSender ? "justify-end" : "justify-start"} mt-4`} // If localSender is true then justify-end else justify-start
       style={{
         maxWidth: "100%",
       }}
@@ -36,7 +38,7 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
         </div>
         <div className="mt-1">
           <p className="text-xs italic" style={{ color: "#ffffff80" }}>
-            {formatAMPM(new Date(timestamp))}
+            {formatAMPM(new Date(timestamp))} {/* Format the timestamp */}
           </p>
         </div>
       </div>
@@ -45,9 +47,10 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
 };
 
 const ChatInput = ({ inputHeight }) => {
-  const [message, setMessage] = useState("");
-  const { publish } = usePubSub("CHAT");
-  const input = useRef();
+  const [message, setMessage] = useState(""); // State to store the message
+  const { publish } = usePubSub("CHAT");  // Get the publish function from the pubsub
+  // console.log("publish", publish);
+  const input = useRef(); // Ref to the input element
   const theme = useTheme();
 
   return (
@@ -61,44 +64,48 @@ const ChatInput = ({ inputHeight }) => {
         paddingLeft: theme.spacing(1),
       }}
     >
+      {/* Input element to accept text */}
       <Input
         style={{
           paddingRight: 0,
           width: "100%",
         }}
         minRows={1}
-        maxRows={2}
+        maxRows={5}
         multiline
         id="outlined"
         onChange={(e) => {
-          setMessage(e.target.value);
+          setMessage(e.target.value); // Set the message state
         }}
         ref={input}
         value={message}
-        placeholder="Write your message"
+        placeholder="Write your message 📧"
         onKeyPress={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
+            // If enter key is pressed and shift key is not pressed
             e.preventDefault();
-            const messageText = message.trim();
+            const messageText = message.trim(); // Trim the message to remove extra spaces
 
             if (messageText.length > 0) {
-              publish(messageText, { persist: true });
+              publish(messageText, { persist: true }); // Publish the message to the pubsub channel
               setTimeout(() => {
                 setMessage("");
               }, 100);
-              input.current?.focus();
+              input.current?.focus(); // Focus on the input element
             }
           }
         }}
         endAdornment={
+          // Send button
           <InputAdornment position="end">
             <IconButton
               disabled={message.length < 2}
               variant="outlined"
+              // theme={theme.palette.primary.main}
               onClick={() => {
-                const messageText = message.trim();
+                const messageText = message.trim(); // Trim the message to remove extra spaces
                 if (messageText.length > 0) {
-                  publish(messageText, { persist: true });
+                  publish(messageText, { persist: true }); // Publish the message to the pubsub channel
                   setTimeout(() => {
                     setMessage("");
                   }, 100);
@@ -118,9 +125,11 @@ const ChatInput = ({ inputHeight }) => {
 const ChatMessages = ({ listHeight }) => {
   const listRef = useRef(); // for scrolling to bottom of chat
   const { messages } = usePubSub("CHAT"); // usePubSub hook to get messages from pubsub channel named "CHAT"
-  console.log(messages)
+  // console.log(messages)
 
   const scrollToBottom = (data) => {
+    // scroll to bottom of chat if new message is received
+    // console.log(data);
     if (!data) {
       if (listRef.current) {
         listRef.current.scrollTop = listRef.current.scrollHeight;
@@ -143,7 +152,7 @@ const ChatMessages = ({ listHeight }) => {
     scrollToBottom();
   }, [messages]);
 
-  return messages ? (
+  return messages ? ( // render messages if any
     <div ref={listRef} style={{ overflowY: "scroll", height: listHeight }}>
       <div className="p-4">
         {messages.map((msg, i) => {
@@ -169,6 +178,7 @@ export function ChatPanel({ panelHeight }) {
 
   return (
     <div>
+    {/* Render all chat messages based on the input height */}
       <ChatMessages listHeight={listHeight} />
       <ChatInput inputHeight={inputHeight} />
     </div>

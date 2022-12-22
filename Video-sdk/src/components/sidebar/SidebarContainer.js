@@ -116,7 +116,7 @@ const SideBarTabView = ({
               />
             ) : sideBarMode === "CHAT" ? ( // Chat Panel
               <ChatPanel panelHeight={panelHeight} />
-            ) : sideBarMode === "POLLS" && meetingMode !== "VIEWER" ? (
+            ) : sideBarMode === "POLLS" && meetingMode !== "VIEWER" ? ( // Polls Panel
               polls.length === 0 && draftPolls.length === 0 ? (
                 <CreatePoll {...{ panelHeight, polls }} />
               ) : (
