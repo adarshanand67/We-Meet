@@ -31,7 +31,7 @@ function Footer() {
                 </button>
               </div>
               <h6 className="fw-bold text-white text-center">
-                Created with ♥ by - Adarsh , Pranav, Aditya Koshti , Aniket
+                Created with ♥ by - Adarsh , Pranav, Aniket
               </h6>
             </div>
           </div>
