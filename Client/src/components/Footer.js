@@ -1,11 +1,11 @@
-import React from 'react'
-import logo from '../assets/images/logo.svg'
+import React from "react";
+import logo from "../assets/images/logo.svg";
 function Footer() {
   return (
     <div>
       <>
         {/* Footer */}
-        <footer className=''>
+        <footer className="">
           <h1 className="display-5 fw-bold text-black m-5">
             <img src={logo} alt="logo" className="img-fluid" />
             We-Meet
@@ -41,4 +41,4 @@ function Footer() {
   );
 }
 
-export default Footer
+export default Footer;

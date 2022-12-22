@@ -1,10 +1,8 @@
-
-
 /* variables */
 :root {
   --primary-color: #67c4db;
-   --secondary-color: #a97bde;
- }
+  --secondary-color: #a97bde;
+}
 .App {
   text-align: center;
 }
@@ -45,7 +43,11 @@
 }
 
 /* Navbar */
-.custom-bg{
+.custom-bg {
   /* background: linear-gradient(var(--primary-color), var(--secondary-color)); */
-  background: linear-gradient(to left, var(--primary-color), var(--secondary-color));
+  background: linear-gradient(
+    to left,
+    var(--primary-color),
+    var(--secondary-color)
+  );
 }

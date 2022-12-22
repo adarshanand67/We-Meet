@@ -31,6 +31,7 @@ export function MeetingContainer({
 }) {
   const bottomBarHeight = 60;
 
+  // Setting up MeetingContainer states and refs
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
   const [sideBarMode, setSideBarMode] = useState(null);
@@ -38,16 +39,16 @@ export function MeetingContainer({
     useState(null);
   const [meetingError, setMeetingError] = useState(false);
 
-  const mMeetingRef = useRef();
-  const containerRef = createRef();
-  const containerHeightRef = useRef();
-  const containerWidthRef = useRef();
-  const { enqueueSnackbar } = useSnackbar();
+  const mMeetingRef = useRef(); // Meeting reference to access meeting methods
+  const containerRef = createRef(); // Ref to access container height and width
+  const containerHeightRef = useRef(); // Ref to access container height
+  const containerWidthRef = useRef(); // Ref to access container width
+  const { enqueueSnackbar } = useSnackbar(); // Snackbar for showing notifications
 
   useEffect(() => {
     containerHeightRef.current = containerHeight;
     containerWidthRef.current = containerWidth;
-  }, [containerHeight, containerWidth]);
+  }, [containerHeight, containerWidth]); // Updating container height and width refs wheneever container height and width changes
 
   const sideBarContainerWidth = useResponsiveSize({
     xl: 400,

@@ -1,10 +1,9 @@
-import React from 'react'
-import card from '../assets/images/card.png'
-
+import React from "react";
+import card from "../assets/images/card.png";
 
 function Carousel() {
   return (
-    <div className='m-5 p-5'>
+    <div className="m-5 p-5">
       <div
         id="carouselExampleControls"
         className="carousel carousel-dark slide"
@@ -19,14 +18,14 @@ function Carousel() {
             </div>
           </div>
           <div className="carousel-item">
-          <div className="card-wrapper d-flex justify-content-center">
+            <div className="card-wrapper d-flex justify-content-center">
               <img src={card} className="d-block w-25 mx-4 px-4" alt="..." />
               <img src={card} className="d-block w-25 mx-4 px-4" alt="..." />
               <img src={card} className="d-block w-25 mx-4 px-4" alt="..." />
             </div>
           </div>
           <div className="carousel-item  ">
-          <div className="card-wrapper d-flex justify-content-center">
+            <div className="card-wrapper d-flex justify-content-center">
               <img src={card} className="d-block w-25 mx-4 px-4" alt="..." />
               <img src={card} className="d-block w-25 mx-4 px-4" alt="..." />
               <img src={card} className="d-block w-25 mx-4 px-4" alt="..." />
@@ -52,9 +51,8 @@ function Carousel() {
           <span className="visually-hidden">Next</span>
         </button>
       </div>
-
     </div>
   );
 }
 
-export default Carousel
+export default Carousel;

@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ParticipantBox = () => {
-  return (
-    <div>
-        Participant 1
-    </div>
-  )
-}
+  return <div>Participant 1</div>;
+};
 
-export default ParticipantBox
+export default ParticipantBox;

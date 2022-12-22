@@ -116,6 +116,7 @@ const App = () => {
           autoHideDuration={5000}
           maxSnack={3}
         >
+          {/* Initialize a Meeting */}
           <MeetingProvider
             config={{
               meetingId,
